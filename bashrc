@@ -151,3 +151,25 @@ command_not_found_handle()
 }
 
 export -f command_not_found_handle
+
+export LS_COLORS='ow=01;36;40'
+alias dev=devfunc
+
+devfunc() {
+        if [ -z "$1" ]; then
+                sln=$(find -iname '*.sln' | head -n 1)
+                if [ -z "$sln" ]; then
+                        sln=$(find -iname '*.csproj' | head -n 1)
+                fi
+                if [ -z "$sln" ]; then
+                        sln="."
+                fi
+                explorer.exe "`wslpath $sln`"
+                return 0
+        fi
+        if [ -d  "$1" ]; then
+                explorer.exe "`wslpath $1/*.sln`"
+                return 0
+        fi
+        explorer.exe "$1"
+}
