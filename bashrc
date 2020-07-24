@@ -118,3 +118,36 @@ fi
 
 export EDITOR=vim
 [ -f ~/.zsh/dot/dot.sh ] && source ~/.zsh/dot/dot.sh
+
+command_not_found_handle()
+{
+   cmd=$1
+   shift
+   args=( "$@" )
+
+   saveIFS="$IFS"
+   IFS=:
+   for dir in $PATH; do
+      for executable in "$dir/$cmd.exe" "$dir/$cmd.com" "$dir/$cmd.bat"; do
+         if [ -x $executable ]; then
+            IFS="$saveIFS"
+            "$executable" "${args[@]}"
+            return
+         fi
+      done
+   done
+
+   IFS="$saveIFS"
+   if [ -x /usr/lib/command-not-found ]; then
+      /usr/lib/command-not-found -- "$cmd" "${args[@]}"
+      return $?
+   elif [ -x /usr/share/command-not-found/command-not-found ]; then
+      /usr/share/command-not-found/command-not-found -- "$1" "${args[@]}"
+      return $?
+   else
+    printf "%s: command not found\n" "$cmd" >&2
+    return 127
+   fi
+}
+
+export -f command_not_found_handle
