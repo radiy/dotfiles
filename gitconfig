@@ -1,0 +1,11 @@
+[user]
+	email = kvasov.roman@gmail.com
+	name = Roman Kvasov
+[core]
+	whitespace = trailing-space,space-before-tab,cr-at-eol
+[include]
+	path = ~/gitconfig.local
+[includeIf "gitdir:/mnt/c/Users/kvasov/dev/"]
+	path = ~/work.inc
+[includeIf "gitdir:/mnt/c/Users/kvasov/dev/personal/"]
+	path = ~/personal.inc
