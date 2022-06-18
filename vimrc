@@ -1,5 +1,4 @@
 set number
-"set spelllang=en,ru
-set spelllang=en
+set spelllang=en,ru
 set ignorecase
 autocmd FileType gitcommit setlocal spell
